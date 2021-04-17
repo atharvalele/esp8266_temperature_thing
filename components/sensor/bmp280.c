@@ -83,4 +83,76 @@ void bmp280_init(struct bmp280_device *bmp280)
         ESP_LOGI("BMP280", "Sensor Found!");
     else
         ESP_LOGW("BMP280", "Sensor Not Found.");
+
+    /* Read BMP280 Trimming/Calibration Parameters */
+    bmp280_read_trim_params(bmp280);
+}
+
+void bmp280_read_trim_params(struct bmp280_device *bmp280)
+{
+    /* Note: BMP280_DIG_xx is the LSB address */
+
+    uint8_t temp[2];
+
+    /* Read temperature compensation parameters */
+    bmp280_read_reg(BMP280_DIG_T1, temp, 2);
+    bmp280->trim_params.dig_T1 = ((temp[1] << 8) | temp[0]);
+
+    bmp280_read_reg(BMP280_DIG_T2, temp, 2);
+    bmp280->trim_params.dig_T2 = ((temp[1] << 8) | temp[0]);
+    bmp280->trim_params.dig_T2 = (int16_t)bmp280->trim_params.dig_T2;
+
+    bmp280_read_reg(BMP280_DIG_T3, temp, 2);
+    bmp280->trim_params.dig_T3 = ((temp[1] << 8) | temp[0]);
+    bmp280->trim_params.dig_T3 = (int16_t)bmp280->trim_params.dig_T3;
+
+    /* Read pressure compensation paramters */
+    bmp280_read_reg(BMP280_DIG_P1, temp, 2);
+    bmp280->trim_params.dig_P1 = ((temp[1] << 8) | temp[0]);
+
+    bmp280_read_reg(BMP280_DIG_P2, temp, 2);
+    bmp280->trim_params.dig_P2 = ((temp[1] << 8) | temp[0]);
+    bmp280->trim_params.dig_P2 = (int16_t)bmp280->trim_params.dig_P2;
+
+    bmp280_read_reg(BMP280_DIG_P3, temp, 2);
+    bmp280->trim_params.dig_P3 = ((temp[1] << 8) | temp[0]);
+    bmp280->trim_params.dig_P3 = (int16_t)bmp280->trim_params.dig_P3;
+
+    bmp280_read_reg(BMP280_DIG_P4, temp, 2);
+    bmp280->trim_params.dig_P4 = ((temp[1] << 8) | temp[0]);
+    bmp280->trim_params.dig_P4 = (int16_t)bmp280->trim_params.dig_P4;
+
+    bmp280_read_reg(BMP280_DIG_P5, temp, 2);
+    bmp280->trim_params.dig_P5 = ((temp[1] << 8) | temp[0]);
+    bmp280->trim_params.dig_P5 = (int16_t)bmp280->trim_params.dig_P5;
+
+    bmp280_read_reg(BMP280_DIG_P6, temp, 2);
+    bmp280->trim_params.dig_P6 = ((temp[1] << 8) | temp[0]);
+    bmp280->trim_params.dig_P6 = (int16_t)bmp280->trim_params.dig_P6;
+
+    bmp280_read_reg(BMP280_DIG_P7, temp, 2);
+    bmp280->trim_params.dig_P7 = ((temp[1] << 8) | temp[0]);
+    bmp280->trim_params.dig_P7 = (int16_t)bmp280->trim_params.dig_P7;
+
+    bmp280_read_reg(BMP280_DIG_P8, temp, 2);
+    bmp280->trim_params.dig_P8 = ((temp[1] << 8) | temp[0]);
+    bmp280->trim_params.dig_P8 = (int16_t)bmp280->trim_params.dig_P8;
+
+    bmp280_read_reg(BMP280_DIG_P9, temp, 2);
+    bmp280->trim_params.dig_P9 = ((temp[1] << 8) | temp[0]);
+    bmp280->trim_params.dig_P9 = (int16_t)bmp280->trim_params.dig_P9;
+
+    /* Log to the console */
+    ESP_LOGI("BMP280", "dig_T1: %d\t%x", bmp280->trim_params.dig_T1, bmp280->trim_params.dig_T1);
+    ESP_LOGI("BMP280", "dig_T2: %d\t%x", bmp280->trim_params.dig_T2, bmp280->trim_params.dig_T2);
+    ESP_LOGI("BMP280", "dig_T3: %d\t%x", bmp280->trim_params.dig_T3, bmp280->trim_params.dig_T3);
+    ESP_LOGI("BMP280", "dig_P1: %d\t%x", bmp280->trim_params.dig_P1, bmp280->trim_params.dig_P1);
+    ESP_LOGI("BMP280", "dig_P2: %d\t%x", bmp280->trim_params.dig_P2, bmp280->trim_params.dig_P2);
+    ESP_LOGI("BMP280", "dig_P3: %d\t%x", bmp280->trim_params.dig_P3, bmp280->trim_params.dig_P3);
+    ESP_LOGI("BMP280", "dig_P4: %d\t%x", bmp280->trim_params.dig_P4, bmp280->trim_params.dig_P4);
+    ESP_LOGI("BMP280", "dig_P5: %d\t%x", bmp280->trim_params.dig_P5, bmp280->trim_params.dig_P5);
+    ESP_LOGI("BMP280", "dig_P6: %d\t%x", bmp280->trim_params.dig_P6, bmp280->trim_params.dig_P6);
+    ESP_LOGI("BMP280", "dig_P7: %d\t%x", bmp280->trim_params.dig_P7, bmp280->trim_params.dig_P7);
+    ESP_LOGI("BMP280", "dig_P8: %d\t%x", bmp280->trim_params.dig_P8, bmp280->trim_params.dig_P8);
+    ESP_LOGI("BMP280", "dig_P9: %d\t%x", bmp280->trim_params.dig_P9, bmp280->trim_params.dig_P9);
 }

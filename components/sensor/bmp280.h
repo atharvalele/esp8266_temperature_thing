@@ -112,5 +112,6 @@ struct bmp280_device {
 
 /* Functions */
 void bmp280_init(struct bmp280_device *bmp280);
+void bmp280_read_trim_params(struct bmp280_device *bmp280);
 
 #endif
