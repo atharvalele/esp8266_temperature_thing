@@ -6,9 +6,11 @@
 
 #include <stdio.h>
 
-
+#include "bmp280.h"
 
 void app_main()
 {
-    printf("Hello world!\n");
+    struct bmp280_device bmp280;
+    
+    bmp280_init(&bmp280);
 }
