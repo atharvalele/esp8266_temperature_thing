@@ -1,1 +1,1 @@
-# esp8266_temperature_thing
+# ESP8266 Temperature Monitor
