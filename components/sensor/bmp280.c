@@ -6,6 +6,9 @@
 
 #include <stdio.h>
 
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+
 #include "driver/i2c.h"
 
 #include "esp_err.h"
@@ -328,4 +331,21 @@ void bmp280_oneshot_read(struct bmp280_device *bmp280)
     bmp280_read_raw_values(bmp280);
     bmp280_convert_temperature_raw_values(bmp280);
     bmp280_convert_pressure_raw_values(bmp280);
+}
+
+/* Sensor Reading Task */
+void bmp280_task(void *bmp280_inst)
+{
+    struct bmp280_device *bmp280;
+
+    bmp280 = (struct bmp280_device *)bmp280_inst;
+
+    bmp280_init(bmp280);
+
+    while (1) {
+        bmp280_oneshot_read(bmp280);
+        vTaskDelay(1000 / portTICK_RATE_MS);
+    }
+
+    vTaskDelete(NULL);
 }

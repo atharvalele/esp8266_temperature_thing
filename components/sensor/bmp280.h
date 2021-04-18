@@ -114,5 +114,6 @@ struct bmp280_device {
 void bmp280_init(struct bmp280_device *bmp280);
 void bmp280_read_trim_params(struct bmp280_device *bmp280);
 void bmp280_oneshot_read(struct bmp280_device *bmp280);
+void bmp280_task(void *bmp280_inst);
 
 #endif
