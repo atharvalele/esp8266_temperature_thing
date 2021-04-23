@@ -10,15 +10,18 @@
 #include "freertos/task.h"
 
 #include "bmp280.h"
+#include "wifi_conn.h"
 
 void app_main()
 {
+    wifi_init_sta();
+    
     struct bmp280_device bmp280 = {
         .i2c_addr = BMP280_I2C_ADDR_PRIM,
         .mode = BMP280_FORCE,
         .temp_os = BMP280_OS_1X,
         .pres_os = BMP280_OS_1X,
-};
+    };
     
     xTaskCreate(
         bmp280_task,
