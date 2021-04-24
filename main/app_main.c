@@ -10,6 +10,7 @@
 #include "freertos/task.h"
 
 #include "bmp280.h"
+#include "ntp.h"
 #include "wifi_conn.h"
 
 void app_main()
@@ -29,6 +30,15 @@ void app_main()
         1024,
         &bmp280,
         1,
+        NULL
+    );
+
+    xTaskCreate(
+        ntp_task,
+        "NTP Task",
+        2048,
+        NULL,
+        3,
         NULL
     );
 }
