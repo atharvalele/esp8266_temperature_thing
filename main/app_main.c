@@ -41,4 +41,11 @@ void app_main()
         3,
         NULL
     );
+
+    /*
+     * Suspend the main task so that our bmp280 struct
+     * is still in memory.. need to find a better way
+     * to handle this
+     */
+    vTaskSuspend(NULL);
 }
